@@ -77,5 +77,48 @@ end
 
     @test hasghost(grid) === false
     @test hasghost(UniformStaggeredGrid(origin, li, nxi; ghost = WithOutGhostNodes())) === false
+end
 
+@testset "UniformStaggeredGrid 3D" begin
+    origin = 0.0, 0.0, 0.0
+    li = 1.0, 1.0, 1.0
+    nxi = 9, 9, 9
+    dxi = li ./ nxi
+
+    grid = UniformStaggeredGrid(origin, li, nxi)
+
+    @test grid isa UniformStaggeredGrid{3, WithOutGhostNodes, Float64}
+    @test grid.xci == ntuple(Val(3)) do i
+        LinRange(origin[i] + dxi[i] / 2, origin[i] + li[i] + dxi[i] / 2, nxi[1])
+    end
+    @test grid.xvi == ntuple(Val(3)) do i
+        LinRange(origin[i], origin[i] + li[i], nxi[i] + 1)
+    end
+
+    @test size(grid) == nxi
+    @test length(grid) == 729
+
+    @test center(grid) == grid.xci
+    @test center(grid, 1, 3, 2) == (grid.xci[1][1], grid.xci[2][3], grid.xci[3][2])
+    @test center_x(grid, 1) == grid.xci[1][1]
+    @test center_y(grid, 3) == grid.xci[2][3]
+    @test center_z(grid, 2) == grid.xci[3][2]
+
+    @test vertex(grid) == grid.xvi
+    @test vertex(grid, 1, 3, 2) == (grid.xvi[1][1], grid.xvi[2][3], grid.xvi[3][2])
+    @test vertex_x(grid, 1) == grid.xvi[1][1]
+    @test vertex_y(grid, 3) == grid.xvi[2][3]
+    @test vertex_z(grid, 2) == grid.xvi[3][2]
+
+    @test StagGrids._dxi(grid) == grid.dxi
+    @test StagGrids._dx(grid, 1) == grid.dxi[1]
+    @test StagGrids._dy(grid, 1) == grid.dxi[2]
+    @test StagGrids._dz(grid, 1) == grid.dxi[3]
+
+    @test grid.dxi[1] == @dx grid 1
+    @test grid.dxi[2] == @dy grid 1
+    @test grid.dxi[3] == @dz grid 1
+
+    @test hasghost(grid) === false
+    @test hasghost(UniformStaggeredGrid(origin, li, nxi; ghost = WithOutGhostNodes())) === false
 end
