@@ -1,0 +1,10 @@
+name = "StagGrids"
+uuid = "908fb252-195b-4b84-b39a-97779d176e66"
+authors = ["Albert de Montserrat <albert.de.montserrat@gmail.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.9, 1.10, 1.11"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
