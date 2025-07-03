@@ -8,7 +8,7 @@
 
     @test grid isa UniformStaggeredGrid{1, WithOutGhostNodes, Float64}
     @test grid.xci == (
-        LinRange(origin[1] + dxi[1] / 2, origin[1] + li[1] + dxi[1] / 2, nxi[1]),
+        LinRange(origin[1] + dxi[1] / 2, origin[1] + li[1] - dxi[1] / 2, nxi[1]),
     )
 
     @test grid.xvi == (
@@ -46,8 +46,8 @@ end
 
     @test grid isa UniformStaggeredGrid{2, WithOutGhostNodes, Float64}
     @test grid.xci == (
-        LinRange(origin[1] + dxi[1] / 2, origin[1] + li[1] + dxi[1] / 2, nxi[1]),
-        LinRange(origin[2] + dxi[2] / 2, origin[2] + li[2] + dxi[2] / 2, nxi[2]),
+        LinRange(origin[1] + dxi[1] / 2, origin[1] + li[1] - dxi[1] / 2, nxi[1]),
+        LinRange(origin[2] + dxi[2] / 2, origin[2] + li[2] - dxi[2] / 2, nxi[2]),
     )
 
     @test grid.xvi == (
@@ -82,14 +82,14 @@ end
 @testset "UniformStaggeredGrid 3D" begin
     origin = 0.0, 0.0, 0.0
     li = 1.0, 1.0, 1.0
-    nxi = 9, 9, 9
+    nxi = 10,10,10
     dxi = li ./ nxi
 
     grid = UniformStaggeredGrid(origin, li, nxi)
 
     @test grid isa UniformStaggeredGrid{3, WithOutGhostNodes, Float64}
     @test grid.xci == ntuple(Val(3)) do i
-        LinRange(origin[i] + dxi[i] / 2, origin[i] + li[i] + dxi[i] / 2, nxi[1])
+        LinRange(origin[i] + dxi[i] / 2, origin[i] + li[i] - dxi[i] / 2, nxi[1])
     end
     @test grid.xvi == ntuple(Val(3)) do i
         LinRange(origin[i], origin[i] + li[i], nxi[i] + 1)

@@ -34,7 +34,7 @@ struct UniformStaggeredGrid{N, G, T} <: AbstractStaggeredGrid{N, G, T}
         end
         # cell center coordinates
         xci = ntuple(Val(N)) do i
-            LinRange(origin[i] + dxi[i] / 2, origin[i] + li[i] + dxi[i] / 2, nxi[i])
+            LinRange(origin[i] + dxi[i] / 2, origin[i] + li[i] - dxi[i] / 2, nxi[i])
         end
         # staggered velocity nodes
         xvel = generate_velocity_grid(xci, xvi, dxi)
