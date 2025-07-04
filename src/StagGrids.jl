@@ -1,5 +1,9 @@
 module StagGrids
 
+using ForwardDiff
+
+include("utils.jl")
+
 include("macros.jl")
 export @dxi, @dx, @dy, @dz
 
