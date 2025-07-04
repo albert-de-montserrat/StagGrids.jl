@@ -4,20 +4,18 @@ multi_step_refinement(x_intervals, npoints, ::Nothing)  = multi_step_refinement_
 multi_step_refinement(x_intervals, ::Nothing, gridsize) = multi_step_refinement_from_gridsize(x_intervals, gridsize)
 multi_step_refinement(x_intervals, npoints, gridsize)   = error("Both `points` or `dx` are provided. You can provide only one of them!")
 
-function multi_step_refinement_from_npoints(x_intervals, n_intervals)
-    xi = ntuple(Val(length(n_intervals))) do i
+function multi_step_refinement_from_npoints(x_intervals, n_intervals::NTuple{N}) where {N}
+    xi = ntuple(Val(N)) do i
         collect(LinRange(x_intervals[i], x_intervals[i+1], n_intervals[i]))
     end
-    xv = merge_grid_intervals(xi) # Merge the grid intervals
-    xc = genereate_center_grid(xv) # Generate the center grid
-    return xv, xc, abs.(diff(xv))
+    xv = merge_grid_intervals(xi)  # Merge the grid intervals
+    return xv, abs.(diff(xv))
 end
 
-function multi_step_refinement_from_gridsize(x_intervals, dx_intervals)
-    xi = ntuple(Val(length(dx_intervals))) do i
+function multi_step_refinement_from_gridsize(x_intervals, dx_intervals::NTuple{N}) where {N}
+    xi = ntuple(Val(N)) do i
         collect(x_intervals[i]:dx_intervals[i]:x_intervals[i+1])
     end
     xv = merge_grid_intervals(xi)  # Merge the grid intervals
-    xc = genereate_center_grid(xv) # Generate the center grid
-    return xv, xc, abs.(diff(xv))
+    return xv, abs.(diff(xv))
 end

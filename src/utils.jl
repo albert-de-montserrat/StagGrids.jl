@@ -9,7 +9,7 @@ function merge_grid_intervals(xi::NTuple{N, AbstractVector{T}}) where {N, T}
     x = xi[1]
     for i in 2:length(xi)
         x2 = xi[i]
-        x[end] == x2[1] && popfirst!(x2)  # Remove the first element of the second array if it matches the last of the first
+        x[end] ≈ x2[1] && popfirst!(x2)  # Remove the first element of the second array if it matches the last of the first
         x  = vcat(x, x2)    # Concatenate excluding the first element of the second array
     end
     return x
