@@ -8,15 +8,16 @@ function multi_step_refinement_from_npoints(x_intervals, n_intervals)
     xi = ntuple(Val(length(n_intervals))) do i
         collect(LinRange(x_intervals[i], x_intervals[i+1], n_intervals[i]))
     end
-    x = merge_grid_intervals(xi)
-    return x, abs.(diff(x))
+    xv = merge_grid_intervals(xi) # Merge the grid intervals
+    xc = genereate_center_grid(xv) # Generate the center grid
+    return xv, xc, abs.(diff(xv))
 end
-
 
 function multi_step_refinement_from_gridsize(x_intervals, dx_intervals)
     xi = ntuple(Val(length(dx_intervals))) do i
         collect(x_intervals[i]:dx_intervals[i]:x_intervals[i+1])
     end
-    x = merge_grid_intervals(xi)
-    return x, abs.(diff(x))
+    xv = merge_grid_intervals(xi)  # Merge the grid intervals
+    xc = genereate_center_grid(xv) # Generate the center grid
+    return xv, xc, abs.(diff(xv))
 end

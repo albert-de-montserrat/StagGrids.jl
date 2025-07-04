@@ -15,4 +15,11 @@ function merge_grid_intervals(xi::NTuple{N, AbstractVector{T}}) where {N, T}
     return x
 end
 
-        
+@generated function genereate_center_grid(xi::NTuple{N, AbstractVector{T}}) where {N, T}
+    quote
+        Base.@ntuple $N i-> begin
+            x = xi[i]
+            [(x[i] + x[i+1]) / 2 for i in 1:length(x)-1]
+        end
+    end
+end

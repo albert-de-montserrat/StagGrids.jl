@@ -7,15 +7,14 @@ end
 
 swiss_cross(args::NTuple{N, NamedTuple}) where N = swiss_cross(args...)
 function swiss_cross(args::Vararg{NamedTuple, N}) where N
-    x, dx = swiss_cross(args[1])
+    xv, = swiss_cross(args[1])
     for i in 2:N
-        x2, dx2 = swiss_cross(args[i])
-        popfirst!(x2)
-        popfirst!(dx2)
-        x  = vcat(x, x2)    # Concatenate excluding the first element of the second array
-        dx = vcat(dx, dx2)  # Concatenate excluding the first element of the second array
+        xv2, = swiss_cross(args[i])
+        popfirst!(xv2)
+        xv  = vcat(xv, x2)    # Concatenate excluding the first element of the second array
     end
-    return x, dx
+    xc = genereate_center_grid(xv) # Generate the center grid  
+    return xv, xc, abs.(diff(xv))
 end
 
 """
