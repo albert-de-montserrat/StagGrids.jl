@@ -23,4 +23,5 @@ julia> center(grid, 1, 3, 2)
 And we can do the same to get the coordinates of the vertices:
 ```julia-repl
 julia> vertex(grid, 1, 3, 2)
-(0.0, 0.2, 0.1)```
+(0.0, 0.2, 0.1)
+```
